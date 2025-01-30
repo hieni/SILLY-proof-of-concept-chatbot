@@ -56,7 +56,7 @@ SILLY-proof-of-concept-chatbot/
 ## 📚 Example Interaction
 ```
 ---------- SILLY CONNECTED ----------
-SILLY: Welcome to Customer Support! How can I help you today?
+SILLY: Welcome to Customer Support! I am SILLY (Straightforward Interactive Language Yapper). How can I help you today?
 You: I can't update my product.
 SILLY: It seems like you have trouble updating your product. Is that right? (yes/no)
 You: Yes
@@ -67,6 +67,7 @@ SILLY: Please follow these steps...
 - **Email Integration**: Integration with an e-mail server, to send out e-mails.
 - **Ticketing System Integration**: Integrate with a ticket management system.
 - **Web Interface**: Implement a user-friendly web interface for smoother interactions.
+- **More Support Cases**: Implement more cases for common issues. Differentiate based on the product the customer is inquiring about.
 
 ## 📄 License
 This project is licensed under the MIT License. See the `LICENSE` file for more information.
