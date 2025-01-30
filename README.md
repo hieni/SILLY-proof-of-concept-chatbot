@@ -66,7 +66,3 @@ SILLY: Please follow these steps...
 
 ## 📄 License
 This project is licensed under the MIT License. See `LICENSE` for more information.
-
---- 
-
-Let me know if you want any further adjustments!
