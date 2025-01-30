@@ -59,7 +59,7 @@ SILLY-proof-of-concept-chatbot/
 SILLY: Welcome to Customer Support! I am SILLY (Straightforward Interactive Language Yapper). How can I help you today?
 You: I can't update my product.
 SILLY: It seems like you have trouble updating your product. Is that right? (yes/no)
-You: Yes
+You: Yup
 SILLY: If you're experiencing issues updating your product, please follow these steps...
 ```
 
