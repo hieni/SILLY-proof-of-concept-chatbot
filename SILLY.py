@@ -25,10 +25,14 @@ ticket_id = None    # create empty ticket_id
 
 print("Done!\n----------\n\n")
 
+# log conversation
+def add_log(message, logs=logs):                # ask for which log to write to and which message
+    logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {message}")
+
 debug = True
 if debug: 
     print("\nSYSTEM: SILLY STARTED IN DEBUG MODE\n")
-    logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SYSTEM: SILLY STARTED IN DEBUG MODE")
+    add_log(f"SYSTEM: SILLY STARTED IN DEBUG MODE")
 
 ### Exception to EXIT chatbot
 class ExitChatbotException(Exception):
@@ -57,14 +61,14 @@ def init_bot(silent=None):
     cached_topics = load_topics()
     if cached_topics:
         topics = {k: set(v) for k, v in cached_topics.items()}  # Convert lists back to sets
-        logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SYSTEM: LOADED TOPIC FROM CACHE.")
+        add_log(f"SYSTEM: LOADED TOPIC FROM CACHE.")
         if debug:
             print(f"\nDEBUG:\nDictionary contains:\n{topics}\n")
         if silent is None: 
             print("Done!\n----------\n\n")
         return
     
-    logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SYSTEM: BUILDING TOPIC LIST")    
+    add_log(f"SYSTEM: BUILDING TOPIC LIST")    
     
     # manually broaden meaning of synonym for certain words 
     synonyms_agent = find_synonyms("human") | find_synonyms("agent") | find_synonyms("manager") | find_synonyms("employee")
@@ -83,7 +87,7 @@ def init_bot(silent=None):
     
     # Save topics to cache file
     save_topics({k: list(v) for k, v in topics.items()})
-    logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SYSTEM: SAVED TOPICS TO CACHE.")
+    add_log(f"SYSTEM: SAVED TOPICS TO CACHE.")
     
     if debug:
         print(f"\nDEBUG:\nDictionary contains:\n{topics}\n")
@@ -103,10 +107,6 @@ def find_synonyms(word):                            # takes a single word
             else:
                 synonyms.add(lemma_name)            # add the synonym as is
     return synonyms
-
-# log conversation
-def log_conversation(logs, message):                # ask for which log to write to and which message
-    logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {message}")
 
 # save log to file
 def save_log(logs, filename):
@@ -146,15 +146,15 @@ Message:
     # Write the content to a text file
     with open(ticket_filename, 'w') as f:
         f.write(ticket_content)
-    logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] INFO: SILLY created ticked {ticket_id}")
+    add_log(f"INFO: SILLY created ticked {ticket_id}")
 
 # conversation shortcuts
 def bot_print(bot_sentence):
     print (f"SILLY: {bot_sentence}")
-    log_conversation (logs, f"SILLY: {bot_sentence}")
+    add_log (f"SILLY: {bot_sentence}")
 def customer_input():
     c_input = input("You: ")
-    log_conversation (logs, f"Customer: {c_input}")
+    add_log (f"Customer: {c_input}")
     if c_input == "EXIT":
         raise ExitChatbotException
     return c_input
@@ -185,7 +185,7 @@ def case_update():
         case_agent("update")
     else:
         bot_print("Alright, thank you for contacting BUGLAND")
-        logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] INFO: Issue resolved. No Ticket will be submitted, but log will be kept for analytics purpose")
+        add_log(f"INFO: Issue resolved. No Ticket will be submitted, but log will be kept for analytics purpose")
 
 def case_return():
     bot_print("If you'd like to return your product straight away, please ensure:\n1. You have the serial number.\n2. The product was purchased within the last 14 days.\n\nDo you have your serial number and purchased the product in the last 14 days? (yes/no)")
@@ -196,9 +196,9 @@ def case_return():
         bot_print("Okay, please enter your serial number")
         serial_number = customer_input().upper()   #TODO: check if serialnumber actually exists in asset management system, if this wasn't out of scope of this assignment
         bot_print("I am quickly checking, if your product was pruchased within the last 14 days. Please wait...")
-        logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] INFO: Serialnumber is {serial_number}")
-        logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SYSTEM: CHECKING DATE OF PURCASE OF PRODUCT {serial_number}")
-        logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] DEBUG: Would hand off serial number to asset management system and check, if date of purchase is no more than 14 days away")
+        add_log(f"INFO: Serialnumber is {serial_number}")
+        add_log(f"SYSTEM: CHECKING DATE OF PURCASE OF PRODUCT {serial_number}")
+        add_log(f"DEBUG: Would hand off serial number to asset management system and check, if date of purchase is no more than 14 days away")
         #TODO: Integration with asset management system, if this wasn't out of scope of this assignment
         under_warranty = True
         if under_warranty:
@@ -211,7 +211,7 @@ def case_return():
                 else:
                     bot_print("Invalid email format. Please enter a valid email.")
             create_ticket(ticket_id,"APPROVED RETURN",email,"","")
-            logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] INFO: SILLY automatically approved return for {serial_number}")
+            add_log(f"INFO: SILLY automatically approved return for {serial_number}")
             #TODO: Integration with logistics system, to actually send out a return lable, if this wasn't out of scope of this assignment
             bot_print("Thank you! The return shipping lable should arrive shortly.")
         else:   # Transfer to support agent, if not under return policy
@@ -313,7 +313,7 @@ def chatbot():
         # give conversation a Ticket ID
         global ticket_id 
         ticket_id = generate_ticket_id()
-        logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] INFO: Ticket-ID is {ticket_id}")
+        add_log(f"INFO: Ticket-ID is {ticket_id}")
 
         # initial exchange
         bot_print("Welcome to Customer Support! I am SILLY (Straightforward Interactive Language Yapper) How can I help you today?")
@@ -323,11 +323,11 @@ def chatbot():
     
     except ExitChatbotException:
         bot_print("I am deeply sorry I couldn't help.")
-        logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SYSTEM: CONVERSATION EXITED, DISCARDING TICKET. KEEPING LOG FOR ANALYTICS")
+        add_log(f"SYSTEM: CONVERSATION EXITED, DISCARDING TICKET. KEEPING LOG FOR ANALYTICS")
     
     finally:
         # save log to file
-        logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SYSTEM: END OF CONVERSATION, SAVING LOG")
+        add_log(f"SYSTEM: END OF CONVERSATION, SAVING LOG")
         log_file = f"{ticket_id}_SILLYlog.txt"
         save_log(logs, log_file)
         if debug: print(f"\n\nConversation log saved to {log_file}.\n\n")
