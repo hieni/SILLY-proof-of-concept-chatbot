@@ -41,8 +41,8 @@ SILLY (**Straightforward Interactive Language Yapper**) is a proof-of-concept ch
 SILLY/
 │── SILLY.py                  # Main chatbot script
 │── silly_topics_cache.txt    # Cached topics for faster processing
-│── [...]SILLYlog.txt         # Conversation logs
-│── [...]Ticket.txt           # Generated tickets
+│── [...]_SILLYlog.txt         # Conversation logs
+│── [...]_ticket.txt           # Generated tickets
 ```
 
 ## Example Interaction
