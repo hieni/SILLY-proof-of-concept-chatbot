@@ -1,20 +1,22 @@
 # 🤖 SILLY.py - Simple Chatbot for Customer Support (Proof of Concept)
 
-SILLY (**Straightforward Interactive Language Yapper**) is a proof-of-concept chatbot designed to assist customers with common support inquiries. It leverages Natural Language Processing (NLP) techniques to recognize keywords, match predefined responses, and even generate support tickets. With capabilities for handling issues like updates, returns, and agent escalation requests, SILLY offers a basic yet functional customer support experience, complete with conversation logs for record-keeping.
+SILLY (**Straightforward Interactive Language Yapper**) is a proof-of-concept chatbot designed to assist customers with common support inquiries. Using Natural Language Processing (NLP) techniques, it recognizes keywords, matches predefined responses, and generates support tickets. SILLY can handle issues like updates, returns, and agent escalation requests. Although it’s a basic implementation, it provides a functional customer support experience with logs for record-keeping.
+
+This project demonstrates basic chatbot functionality, focusing on keyword matching and automated responses.
 
 ---
 
 ## ✨ Features
 - **Keyword Matching**: Scans user input to identify intent based on predefined support topics.
-- **NLP-enhanced**: Uses the NLTK library to improve keyword matching by recognizing synonyms.
+- **NLP-enhanced**: Uses the NLTK library to recognize synonyms for better intent matching.
 - **Conversation Logging**: Records interactions for future analysis and review.
 - **Ticket Generation**: Automatically creates a basic text-based support ticket.
 - **Escalation to Agent**: Allows complex issues to be escalated to a human support agent.
 - **Caching**: Stores recognized topics for faster future interactions.
 
 ## 🔧 Prerequisites
-- **Python 3.x**: Ensure you have Python 3.x installed.
-- **Required Dependencies**: Install the necessary Python libraries.
+- **Python 3.x**: Ensure Python 3.x is installed on your system.
+- **Install Dependencies**: Run the following command to install the necessary Python libraries:
   ```sh
   pip install nltk
   ```
@@ -23,8 +25,8 @@ SILLY (**Straightforward Interactive Language Yapper**) is a proof-of-concept ch
 
 1. **Clone the repository**:
    ```sh
-   git clone https://github.com/yourusername/SILLY.git
-   cd SILLY
+   git clone https://github.com/urban05/SILLY-proof-of-concept-chatbot/
+   cd SILLY-proof-of-concept-chatbot
    ```
 
 2. **Run the chatbot**:
@@ -34,11 +36,13 @@ SILLY (**Straightforward Interactive Language Yapper**) is a proof-of-concept ch
 
 3. The chatbot will initialize, load cached topics (if available), and begin interacting with users.
 
+   > **Silent Mode**: If running in silent mode, less output will be displayed during bot initialization.
+
 ## 🛠️ Functionality
-- **Keyword Matching**: SILLY processes user input to match it with predefined topics, enhancing user interaction.
-- **Predefined Scripts**: Handles standard support inquiries such as software updates and product returns.
+- **Keyword Matching**: SILLY processes user input to match predefined topics and responds with relevant information.
+- **Predefined Scripts**: Handles common support inquiries such as software updates and product returns.
 - **Conversation Logging**: Logs all interactions in text files for future analysis.
-- **Ticket Generation**: Generates a simple support ticket with customer details, making it easy to track issues.
+- **Ticket Generation**: Generates a simple support ticket with customer details, facilitating issue tracking.
 
 ## 📂 File Structure
 ```
@@ -60,9 +64,9 @@ SILLY: Please follow these steps...
 ```
 
 ## 🔮 Future Enhancements
-- **Email Integration**: Sending support tickets via email for easier tracking.
-- **Ticketing System Integration**: Connecting to platforms like Zendesk or Jira for advanced ticketing features.
-- **Web Interface**: Implementing a user-friendly web or GUI interface for smoother interaction.
+- **Email Integration**: Integration with an e-mail server, to send out e-mails.
+- **Ticketing System Integration**: Integrate with a ticket management system.
+- **Web Interface**: Implement a user-friendly web interface for smoother interactions.
 
 ## 📄 License
-This project is licensed under the MIT License. See `LICENSE` for more information.
+This project is licensed under the MIT License. See the `LICENSE` file for more information.
