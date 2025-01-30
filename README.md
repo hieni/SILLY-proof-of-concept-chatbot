@@ -49,7 +49,7 @@ SILLY-proof-of-concept-chatbot/
 │── silly_topics_cache.txt    # Cached topics for faster processing
 │── [...]_SILLYlog.txt        # Conversation logs
 │── [...]_ticket.txt          # Generated tickets
-│── testSILLY.py              # Unit testing script for saving and loading topics
+│── testSILLY.py              # Unit testing script (Proof of Concept)
 ```
 
 ## 📚 Example Interaction
