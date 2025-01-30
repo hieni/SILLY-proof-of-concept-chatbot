@@ -146,7 +146,7 @@ def generate_ticket_id():
     return ticket_id                             # Return the generated ticket ID
 
 # Create a support ticket (for proof of concept, saves as a text file)
-# TODO: Integrate actual sending of email if this wasn't out of scope for this assignment
+# TODO: Integrate actual sending of email
 def create_ticket(ticket_id, issue, email, telephone, preference):
     # Create the ticket content to be saved in a text file
     ticket_filename = f"{ticket_id}_ticket.txt"
