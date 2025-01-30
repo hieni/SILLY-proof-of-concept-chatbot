@@ -316,13 +316,6 @@ def chatbot():
     
         # Let the costumer input their issue and try to match it to the dictionary and pre-defined scripts
         issue_match()
-
-        # save log to file
-        logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SYSTEM: END OF CONVERSATION, SAVING LOG")
-        log_file = f"{ticket_id}_SILLYlog.txt"
-        save_log(logs, log_file)
-        if debug: print(f"\n\nConversation log saved to {log_file}.\n\n")
-        print("---------- SILLY DISCONNECTED ----------")
     
     except ExitChatbotException:
         bot_print("I am deeply sorry I couldn't help.")
