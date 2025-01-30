@@ -59,3 +59,6 @@ SILLY: Please follow these steps...
 - Implementing an email-sending feature for support tickets.
 - Connecting to an actual ticketing system (e.g., Zendesk, Jira).
 - GUI or web-based interface for easier use.
+
+## License
+This project is released under the MIT License.
