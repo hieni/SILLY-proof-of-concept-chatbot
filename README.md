@@ -34,7 +34,7 @@ This project demonstrates basic chatbot functionality, focusing on keyword match
    python SILLY.py
    ```
 
-3. The chatbot will initialize, load cached topics (if available), and begin interacting with users.
+3. The chatbot will initialize and begin interacting with users.
 
 ## 🛠️ Functionality
 - **Keyword Matching**: SILLY processes user input to match predefined topics and responds with relevant information.
