@@ -55,8 +55,14 @@ def save_topics(topics):
 # Function to load the cached topics from file, if it exists
 def load_topics():
     if os.path.exists(TOPICS_CACHE_FILE):
-        with open(TOPICS_CACHE_FILE, "r") as f:
-            return json.load(f)
+        print ("Loading topics SILLY can help with...")
+        try:
+            with open(TOPICS_CACHE_FILE, "r") as f:
+                return json.load(f)
+        except (json.JSONDecodeError, TypeError) as e:
+            add_log(f"ERROR: Failed to load topics from cache - {type(e).__name__}: {e}")
+            if debug:
+                print(f"ERROR: Failed to load topics from cache - {type(e).__name__}: {e}.\nIgnoring cache and rebuilding topics, please wait...")
     return None
 
 # Function to initialize the chatbot
@@ -91,18 +97,20 @@ def init_bot(silent=None):
     synonyms_agent = find_synonyms("human") | find_synonyms("agent") | find_synonyms("manager") | find_synonyms("employee")
     synonyms_email = find_synonyms("email") | find_synonyms("mail")
     synonyms_phone = find_synonyms("telephone") | find_synonyms("phone")
-    
+    synonyms_update = find_synonyms("update") | find_synonyms("updating")
+    synonyms_yes = find_synonyms("yes") | find_synonyms("sure") | {"y", "yeah", "yup"}
+
     # Build a dictionary that maps topics to sets of synonyms, making it easier to match user input
     topics = {
         "agent": synonyms_agent,
-        "update": find_synonyms("update"),
+        "update": synonyms_update,
         "return": find_synonyms("return"),
-        "yes": find_synonyms("yes") | {"y", "yeah", "yup", "sure"},  # Synonyms for affirmation
+        "yes": synonyms_yes, 
         "email": synonyms_email,
         "phone": synonyms_phone
     }
     
-    # Save the built topics list to the cache file for future use
+    # Save the built topics to the cache file for future use, converting it to a list for json
     save_topics({k: list(v) for k, v in topics.items()})
     add_log(f"SYSTEM: SAVED TOPICS TO CACHE.")
     
@@ -292,7 +300,9 @@ def case_agent(topic=None):
     
     # Create a support ticket with the provided information
     create_ticket(ticket_id, topic, email, telephone, preference)
-    bot_print("I have created a ticket with our support agent, they will be in touch shortly.")
+    ticket_code = ticket_id.rsplit('-', 1)[-1] # Grab last part of ticket ID to tell the customer
+    bot_print(f"I have created a ticket with our support agent, they will be in touch shortly.\nYou can also call them right away under +44 20 7946 0123, be sure to tell them your\nreference code:    {ticket_code}")
+    # Telephonenumber is placeholder (never-assigned drama number from london)
 
 # Function to clarify customer input if necessary
 def clarification(keywords, topic):
@@ -329,7 +339,7 @@ def issue_match(keywords=None):
             
         case _:
             init_bot("silent")
-            bot_print("I am sorry, I did not understand that. Please try explaining your problem again. Type 'EXIT' to exit")
+            bot_print("I am sorry, I did not understand that. Please try explaining your problem again. Type 'EXIT' to exit or 'agent' to be connected to an agent")
             issue_match()  # Retry if no match found
 
 ### Chatbot function ###
@@ -353,6 +363,21 @@ def chatbot():
         bot_print("I am deeply sorry I couldn't help.")
         add_log(f"SYSTEM: CONVERSATION EXITED, DISCARDING TICKET. KEEPING LOG FOR ANALYTICS")
     
+    except KeyboardInterrupt:
+        add_log(f"SYSTEM: KEYBOARD INTERRUPT. SAVING LOG AND EXITING.")
+
+    ### General error handling ###
+    except OSError as e:
+            add_log(f"CRITICAL ERROR: OSError during chatbot operation - {type(e).__name__}: {e}")
+            print(f"CRITICAL ERROR: OSError during chatbot operation - {type(e).__name__}: {e}")
+            add_log(f"SYSTEM: EXITING DUE TO CRITICAL ERROR")
+            critical_error_details = f"OSError during chatbot operation - {type(e).__name__}: {e}" # Failback to keep critical error information if save_logs also fails
+            try:    # Still try to save log, even if ticket ID is not generated
+                save_log(logs, f"criticalError{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}.txt")
+            except OSError as save_error:
+                print(f"Could not save log due to error: {e}")
+                print(f"\n\n---------- ATTENTION ----------\nPlease email the following error details and a description of the actions you took before encountering the error to:\n    level1@bugland.com\n\nError details:\n    Critical Error: {critical_error_details}\n    Log Save Error: {type(save_error).__name__} - {save_error}\n---------- ATTENTION ----------")
+    
     finally:
         # Save the conversation log to a file
         add_log(f"SYSTEM: END OF CONVERSATION, SAVING LOG")
@@ -363,4 +388,5 @@ def chatbot():
         print("---------- SILLY DISCONNECTED ----------")
 
 # Start the chatbot
-chatbot()
+if __name__ == '__main__':
+    chatbot()
