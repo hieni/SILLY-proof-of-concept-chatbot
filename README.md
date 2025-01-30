@@ -38,7 +38,7 @@ SILLY (**Straightforward Interactive Language Yapper**) is a proof-of-concept ch
 
 ## File Structure
 ```
-SILLY/
+SILLY-proof-of-concept-chatbot/
 │── SILLY.py                  # Main chatbot script
 │── silly_topics_cache.txt    # Cached topics for faster processing
 │── [...]_SILLYlog.txt         # Conversation logs
