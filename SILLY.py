@@ -95,9 +95,13 @@ def init_bot(silent=None):
 # Find Synonym for entered word
 def find_synonyms(word):                            # takes a single word
     synonyms = set()                                # list synonyms in a set, to avoid duplicates
-    for syn in wn.synsets(word):                    # for every synonym
+    for syn in wn.synsets(word):                    # for every synonym (broad meaning of a word)
         for lemma in syn.lemmas():                  # add each lemma (specific synonym) to set
-            synonyms.add(lemma.name().lower())
+            lemma_name = lemma.name().lower()
+            if "_" in lemma_name:                   # check if the synonym contains an underscore
+                synonyms.update(lemma_name.split('_'))  # split by underscore and add both parts
+            else:
+                synonyms.add(lemma_name)            # add the synonym as is
     return synonyms
 
 # log conversation
