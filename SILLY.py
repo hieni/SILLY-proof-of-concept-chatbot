@@ -1,4 +1,4 @@
-#SILLY.py - a simple chatbot for cutomer support - Proof of Concept
+#SILLY.py - a simple chatbot for customer support - Proof of Concept
 ### Setup ###
 print("\n\n----------\nSILLY 1.0\nChecking dependencies")
 try:
@@ -206,7 +206,7 @@ def case_return():
         #TODO: Integration with asset management system, if this wasn't out of scope of this assignment
         under_warranty = True
         if under_warranty:
-            bot_print("Your product can be returned right away. You will recieve your refund, once it has arrived back at BUGLAND and we've checked, that it wasn't intentionally or negligently damaged. I will send you the return shipping lable. \nPlease enter you e-mail address:")
+            bot_print("Your product can be returned right away. You will receive your refund, once it has arrived back at BUGLAND and we've checked, that it wasn't intentionally or negligently damaged. I will send you the return shipping lable. \nPlease enter you e-mail address:")
             email = ""
             while True:
                 email = customer_input().strip()
