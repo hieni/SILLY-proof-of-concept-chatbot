@@ -1,7 +1,3 @@
-Here is a beautified version of the second README in the style of the first:
-
----
-
 # 🤖 SILLY.py - Simple Chatbot for Customer Support (Proof of Concept)
 
 SILLY (**Straightforward Interactive Language Yapper**) is a proof-of-concept chatbot designed to assist customers with common support inquiries. It leverages Natural Language Processing (NLP) techniques to recognize keywords, match predefined responses, and even generate support tickets. With capabilities for handling issues like updates, returns, and agent escalation requests, SILLY offers a basic yet functional customer support experience, complete with conversation logs for record-keeping.
