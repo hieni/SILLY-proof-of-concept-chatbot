@@ -63,7 +63,9 @@ def init_bot(silent=None):
         topics = {k: set(v) for k, v in cached_topics.items()}  # Convert lists back to sets
         add_log(f"SYSTEM: LOADED TOPIC FROM CACHE.")
         if debug:
-            print(f"\nDEBUG:\nDictionary contains:\n{topics}\n")
+            debug_message = f"DEBUG:\nDictionary contains:\n{topics}\n"
+            print(debug_message)  # prints the message
+            add_log(debug_message)  # adds the message to the log
         if silent is None: 
             print("Done!\n----------\n\n")
         return
@@ -90,7 +92,9 @@ def init_bot(silent=None):
     add_log(f"SYSTEM: SAVED TOPICS TO CACHE.")
     
     if debug:
-        print(f"\nDEBUG:\nDictionary contains:\n{topics}\n")
+        debug_message = f"DEBUG:\nDictionary contains:\n{topics}\n"
+        print(debug_message)
+        add_log(debug_message) 
 
     if silent is None: 
         print("Done!\n----------\n\n")
