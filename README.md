@@ -36,7 +36,7 @@ This project demonstrates basic chatbot functionality, focusing on keyword match
 
 3. The chatbot will initialize, load cached topics (if available), and begin interacting with users.
 
-   > **Debug Mode**: Per default SILLY starts in debug mode. In Line 32 Change debug to False, to disable debug mode.
+   > **Debug Mode**: Per default SILLY starts in debug mode. In Line 39 Change debug to False, to disable debug mode.
 
 ## 🛠️ Functionality
 - **Keyword Matching**: SILLY processes user input to match predefined topics and responds with relevant information.
