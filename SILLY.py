@@ -18,9 +18,9 @@ nltk.download('wordnet')
 
 TOPICS_CACHE_FILE = "silly_topics_cache.txt" # point to cache file
 
-logs = []       # create empty log
-topics = {}     # create empty list of topics
-ticket_id = None   # create empty ticket_id
+logs = []           # create empty log
+topics = {}         # create empty list of topics
+ticket_id = None    # create empty ticket_id
 
 
 print("Done!\n----------\n\n")
@@ -30,6 +30,9 @@ if debug:
     print("\nSYSTEM: SILLY STARTED IN DEBUG MODE\n")
     logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SYSTEM: SILLY STARTED IN DEBUG MODE")
 
+### Exception to EXIT chatbot
+class ExitChatbotException(Exception):
+    pass
 
 ### Define Functions ###
 # Dump topics to cache
@@ -75,8 +78,7 @@ def init_bot(silent=None):
         "return": find_synonyms("return"),
         "yes": find_synonyms("yes") | {"y", "yeah", "yup", "sure"},
         "email": synonyms_email,
-        "phone": synonyms_phone,
-        "EXIT": {"EXIT"}
+        "phone": synonyms_phone
     }
     
     # Save topics to cache file
@@ -149,19 +151,19 @@ def bot_print(bot_sentence):
 def customer_input():
     c_input = input("You: ")
     log_conversation (logs, f"Customer: {c_input}")
+    if c_input == "EXIT":
+        raise ExitChatbotException
     return c_input
 
 # keyword search
 def keyword_search(searchterm):
-    if searchterm != "EXIT":                   # only search if user does not want to exit
-        keywords = searchterm.lower().split()               # generate list of words entered by customer
-        matched_topic = None
-        for topic, synonyms in topics.items():              # iterate over topic dictionary
-            if any(word in synonyms for word in keywords):  # iterate over keywords and look for first match in dictionary
-                matched_topic = topic                       # match topic, if any
-                return matched_topic
-    else: 
-        return searchterm                                   # if the user wants to exit, exit them
+    keywords = searchterm.lower().split()               # generate list of words entered by customer
+    matched_topic = None
+    for topic, synonyms in topics.items():              # iterate over topic dictionary
+        if any(word in synonyms for word in keywords):  # iterate over keywords and look for first match in dictionary
+            matched_topic = topic                       # match topic, if any
+            return matched_topic
+
 
 # validate input
 def validate_email(email):
@@ -290,9 +292,6 @@ def issue_match(keywords=None):
             if clarification(keywords,"agent") == True:
                 bot_print("Alright, I will create a Ticket.")
                 case_agent()            
-        case "EXIT":
-            bot_print("I am deeply sorry I couldn't help")
-            logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SYSTEM: CONVERSATION EXITED, DISCARDING TICKET")
 
         case _:
             init_bot("silent")
@@ -303,27 +302,41 @@ def issue_match(keywords=None):
 
 ### chatbot function ###
 def chatbot():
-    init_bot()
+    try:
+        init_bot()
 
-    print("---------- SILLY CONNECTED ----------")
-    # give conversation a Ticket ID
-    global ticket_id 
-    ticket_id = generate_ticket_id()
-    logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] INFO: Ticket-ID is {ticket_id}")
+        print("---------- SILLY CONNECTED ----------")
+        # give conversation a Ticket ID
+        global ticket_id 
+        ticket_id = generate_ticket_id()
+        logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] INFO: Ticket-ID is {ticket_id}")
 
-    # initial exchange
-    bot_print("Welcome to Customer Support! I am SILLY (Straightforward Interactive Language Yapper) How can I help you today?")
- 
-    # Let the costumer input their issue and try to match it to the dictionary and pre-defined scripts
-    issue_match()
+        # initial exchange
+        bot_print("Welcome to Customer Support! I am SILLY (Straightforward Interactive Language Yapper) How can I help you today?")
+    
+        # Let the costumer input their issue and try to match it to the dictionary and pre-defined scripts
+        issue_match()
 
-    # save log to file
-    logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SYSTEM: END OF CONVERSATION, SAVING LOG")
-    log_file = f"{ticket_id}_SILLYlog.txt"
-    save_log(logs, log_file)
-    if debug: print(f"\n\nConversation log saved to {log_file}.\n\n")
-    print("---------- SILLY DISCONNECTED ----------")
+        # save log to file
+        logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SYSTEM: END OF CONVERSATION, SAVING LOG")
+        log_file = f"{ticket_id}_SILLYlog.txt"
+        save_log(logs, log_file)
+        if debug: print(f"\n\nConversation log saved to {log_file}.\n\n")
+        print("---------- SILLY DISCONNECTED ----------")
+    
+    except ExitChatbotException:
+        bot_print("I am deeply sorry I couldn't help.")
+        logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SYSTEM: CONVERSATION EXITED, DISCARDING TICKET")
+    
+    finally:
+        # save log to file
+        logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SYSTEM: END OF CONVERSATION, SAVING LOG")
+        log_file = f"{ticket_id}_SILLYlog.txt"
+        save_log(logs, log_file)
+        if debug: print(f"\n\nConversation log saved to {log_file}.\n\n")
+        print("---------- SILLY DISCONNECTED ----------")
 
+    
 
 
 
