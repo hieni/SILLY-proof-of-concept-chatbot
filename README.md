@@ -39,10 +39,10 @@ SILLY (**Straightforward Interactive Language Yapper**) is a proof-of-concept ch
 ## File Structure
 ```
 SILLY/
-│── SILLY.py            # Main chatbot script
-│── silly_topics_cache.txt  # Cached topics for faster processing
-│── logs/               # Folder storing conversation logs
-│── tickets/            # Folder storing generated tickets
+│── SILLY.py                  # Main chatbot script
+│── silly_topics_cache.txt    # Cached topics for faster processing
+│── [...]SILLYlog.txt         # Conversation logs
+│── [...]Ticket.txt           # Generated tickets
 ```
 
 ## Example Interaction
