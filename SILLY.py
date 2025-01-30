@@ -25,7 +25,7 @@ ticket_id = None    # create empty ticket_id
 
 print("Done!\n----------\n\n")
 
-# log conversation
+# add log entry
 def add_log(message, logs=logs):                # ask for which log to write to and which message
     logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {message}")
 
