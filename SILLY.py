@@ -4,7 +4,7 @@ print("\n\n----------\nSILLY 1.0\nChecking dependencies")
 try:
     import nltk
 except: 
-    print("ModuleNotFoundError: No module named 'nltk'\nInstall it using:\n    py -m pip install nltk")
+    print("\n\nModuleNotFoundError: No module named 'nltk'\nInstall it using:\n\n    py -m pip install nltk\n\n")
 
 import os
 import re
@@ -319,7 +319,7 @@ def chatbot():
     
     except ExitChatbotException:
         bot_print("I am deeply sorry I couldn't help.")
-        logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SYSTEM: CONVERSATION EXITED, DISCARDING TICKET")
+        logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] SYSTEM: CONVERSATION EXITED, DISCARDING TICKET. KEEPING LOG FOR ANALYTICS")
     
     finally:
         # save log to file
