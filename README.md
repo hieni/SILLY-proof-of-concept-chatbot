@@ -12,7 +12,7 @@ This project demonstrates basic chatbot functionality, focusing on keyword match
 - **Conversation Logging**: Records interactions for future analysis and review.
 - **Ticket Generation**: Automatically creates a basic text-based support ticket.
 - **Escalation to Agent**: Allows complex issues to be escalated to a human support agent.
-- **Caching**: Stores recognized topics for faster future interactions.
+- **Caching**: Stores dictionary of topics for faster future interactions.
 
 ## 🔧 Prerequisites
 - **Python 3.x**: Ensure Python 3.x is installed on your system.
