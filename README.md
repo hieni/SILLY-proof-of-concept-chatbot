@@ -60,7 +60,7 @@ SILLY: Welcome to Customer Support! I am SILLY (Straightforward Interactive Lang
 You: I can't update my product.
 SILLY: It seems like you have trouble updating your product. Is that right? (yes/no)
 You: Yes
-SILLY: Please follow these steps...
+SILLY: If you're experiencing issues updating your product, please follow these steps...
 ```
 
 ## 🔮 Future Enhancements
