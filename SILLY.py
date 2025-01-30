@@ -9,7 +9,7 @@ try:
 except: 
     print("\n\nModuleNotFoundError: No module named 'nltk'\nInstall it using:\n\n    py -m pip install nltk\n\n")
 
-# Import other required modules for system operations, regex, random generation, JSON handling, datetime, and NLTK WordNet
+# Import other required modules for system operations, regex, random generation including strings, JSON handling, datetime, and NLTK WordNet
 import os
 import re
 import random
@@ -36,7 +36,9 @@ def add_log(message, logs=logs):
     logs.append(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {message}")
 
 # Debug mode flag to show additional internal messages for development purposes
-debug = True
+#debug = True
+debug = False
+
 if debug: 
     print("\nSYSTEM: SILLY STARTED IN DEBUG MODE\n")
     add_log(f"SYSTEM: SILLY STARTED IN DEBUG MODE")
@@ -55,7 +57,6 @@ def save_topics(topics):
 # Function to load the cached topics from file, if it exists
 def load_topics():
     if os.path.exists(TOPICS_CACHE_FILE):
-        print ("Loading topics SILLY can help with...")
         try:
             with open(TOPICS_CACHE_FILE, "r") as f:
                 return json.load(f)
@@ -70,6 +71,7 @@ def init_bot(silent=None):
     # Print initializing message if silent flag is not set
     if silent is None: 
         print("\n\n----------\nInitializing SILLY, please wait...")
+        print ("Loading topics SILLY can help with...")
     
     global topics  # Access global topics variable to store the list of topics
 
@@ -79,12 +81,9 @@ def init_bot(silent=None):
         # If cache exists, convert cached lists back to sets for easier manipulation
         topics = {k: set(v) for k, v in cached_topics.items()}  
         add_log(f"SYSTEM: LOADED TOPIC FROM CACHE.")
-        
-        # In debug mode, print detailed information about the loaded topics
+        add_log(f"DEBUG:Dictionary contains{topics}")
         if debug:
-            debug_message = f"DEBUG:\nDictionary contains:\n{topics}\n"
-            print(debug_message)  # Print debug message
-            add_log(debug_message)  # Log debug message
+            print(f"DEBUG:\nDictionary contains:\n{topics}\n") 
         
         if silent is None: 
             print("Done!\n----------\n\n")
@@ -179,7 +178,8 @@ Message:
 # Print bot's message and log it
 def bot_print(bot_sentence):
     print(f"SILLY: {bot_sentence}")   # Print the bot's message
-    add_log(f"SILLY: {bot_sentence}")  # Log the bot's message
+    logged_bot_sentence = bot_sentence.replace("\n", " ")
+    add_log(f"SILLY: {logged_bot_sentence}")  # Log the bot's message without linebreaks
 
 # Get customer input, log it, and handle exit
 def customer_input():
@@ -332,7 +332,7 @@ def issue_match(keywords=None):
                 case_return()
 
         case "agent":
-            bot_print("It seems like you want to talk to a live agent. \nIs that right? (yes/no)")
+            bot_print("It seems like you want to talk directly to a support agent. \nIs that right? (yes/no)")
             if clarification(keywords, "agent") == True:
                 bot_print("Alright, I will create a Ticket.")
                 case_agent()
